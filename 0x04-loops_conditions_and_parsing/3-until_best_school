@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+until (i=0; i<=10;); do echo "Best School"; done
