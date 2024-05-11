@@ -3,9 +3,11 @@
 hours=0
 minutes=1
 while [ $hours -le 12 ]; do
-    echo "Hours: $hours"
-    if [ $minutes -le 59 ]; then
-        echo $minutes
-    fi
+    echo "Hour: $hours"
+    while [ $minutes -le 59 ]; do
+	    echo $minutes
+	    ((minutes++))
+    done
+    minutes=1
     ((hours++))
 done
