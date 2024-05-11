@@ -1,2 +1,7 @@
 #!/usr/bin/env bash
-until (i=0; i<=10;); do echo "Best School"; done
+# displays "Best School" 10 times using until
+i=0
+until [ $i -ge 10 ]; do
+echo "Best School"
+((i++))
+done

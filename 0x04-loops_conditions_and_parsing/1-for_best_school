@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 #!/usr//bin/env bash
 for ((i=0; i<=10; i++)); do
 echo "Best School"
 done
+=======
+#!/usr/bin/env bash
+# displays "Best School" 10 times using a for loop
+for ((i=0; i=10; i++)); do
+    echo "Best School"
+done
+>>>>>>> 09cad2657efd81a80ff3577b24517e6406d3b1ef
