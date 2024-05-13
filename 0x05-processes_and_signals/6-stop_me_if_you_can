@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 # script that terminates process without using kill
-pkill -15 "bash ./4-to_infinity_and_beyond" -f
+pid=$(pgrep -f "4-to_infinity_and_beyond")
+if [ -n "$pid" ]; then
+	pkill -15 $pid
+fi
