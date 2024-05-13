@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# script that displays "To infinty and beyond" indefinetly and killed with ctrl+c
+message() {
+	echo "To infinity and beyond"
+}
+#trap 'echo "^C"; exit 0' SIGINT
+while true
+do
+	message
+	sleep 2
+done
