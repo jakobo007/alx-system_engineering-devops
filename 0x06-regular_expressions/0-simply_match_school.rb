@@ -2,13 +2,13 @@
 
 def match_school(argument)
   regex = /School/
-  argument.match(regex)
+  argument.scan(regex).join
 end
 
 if ARGV.empty?
   puts "Please provide an argument."
 else
   result = match_school(ARGV[0])
-  puts result ? result[0] : ""
+  puts result
 end
 
