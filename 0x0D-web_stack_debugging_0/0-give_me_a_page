@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#Start apache service
+docker exec -it vigilant_tesla service apache2 start
+#create the page
+docker exec -t vigilant_tesla bash -c 'echo "Hello Holberton" > /var/www/html/index.html'
+docker exec -it vigilant_tesla cat /etc/apache2/sites-available/000-default.conf
+docker exec -it vigilant_tesla service apache2 restart
+
