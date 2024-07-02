@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#update and install nginx package
+apt-get update -y
+apt-get install ngix -y
+
+#create page to return hello world
+echo "Hello World!" > var/www/html/index.html
+
+#start ngix
+service nginx start
