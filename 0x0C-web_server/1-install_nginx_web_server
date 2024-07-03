@@ -1,17 +1,28 @@
 #!/usr/bin/env bash
-#update and install nginx package
-sudo apt update
-sudo apt install -y nginx
 
-# Ensure Nginx is listening on port 80
-sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
+# Update package list and install nginx
+sudo apt-get update -y
+sudo apt-get install nginx -y
 
-# Replace the default page with "Hello World!"
+# Create custom HTML page
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Reload Nginx configuration without using systemctl
-sudo nginx -s reload
+# Ensure nginx is listening on port 80
+sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/g' /etc/nginx/sites-available/default
 
-# Ensure Nginx starts on boot
-sudo update-rc.d nginx defaults
+# Restart nginx without using systemctl
+sudo service nginx restart
+
+# Check nginx status (optional, for debugging purposes)
+sudo service nginx status
+
+# Validate server response
+response=$(curl -s -o /dev/null -w "%{http_code}" localhost)
+
+if [ "$response" -eq 200 ]; then
+  echo "Server is returning 200 OK"
+else
+  echo "Server is not returning 200 OK. Response code: $response"
+fi
+
