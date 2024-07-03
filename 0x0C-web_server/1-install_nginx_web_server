@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 #update and install nginx package
-apt-get update -y
-apt-get install ngix -y
+sudo apt update
+sudo apt install -y nginx
 
-#create page to return hello world
-echo "Hello World!" > var/www/html/index.html
+# Ensure Nginx is listening on port 80
+sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
 
-#start ngix
-service nginx start
+# Replace the default page with "Hello World!"
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Reload Nginx configuration without using systemctl
+sudo nginx -s reload
+
+# Ensure Nginx starts on boot
+sudo update-rc.d nginx defaults
