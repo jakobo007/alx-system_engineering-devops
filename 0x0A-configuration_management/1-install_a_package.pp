@@ -1,5 +1,2 @@
-exec { 'install_flask':
-  command => 'pip3 install flask==2.1.0',
-  path    => ['/usr/bin', '/usr/local/bin'],
-  unless  => 'pip3 show flask | grep -q "Version: 2.1.0"',
-}
+#Using puppet to install flask from pip3
+pip3 install flask
