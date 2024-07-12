@@ -8,10 +8,4 @@ fi
 
 # Extract the IP address from the argument
 ip_address=$1
-
-# Ping the IP address 5 times and format the output
-echo "Pinging $ip_address 5 times..."
-ping_output=$(ping -c 5 "$ip_address")
-
-# Display the formatted output
-echo "$ping_output"
+ping -c 5 "$ip_address"

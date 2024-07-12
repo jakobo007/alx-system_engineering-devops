@@ -1,14 +1,3 @@
 #!/usr/bin/env bash
-# Get the list of listening ports
-listening_ports=$(netstat -tuln | grep 'LISTEN')
-# Loop through each listening port
-while read -r line; do
-    # Extract port number
-    port=$(echo "$line" | awk '{print $4}' | awk -F':' '{print $NF}')
-    
-    # Get PID and program name
-    pid_name=$(lsof -i :$port | tail -n +2 | awk '{print $2,$1}')
-    
-    # Display PID, program name, and port
-    echo "$pid_name   $port"
-done <<< "$listening_ports"
+#listening ports
+netstat -l -p

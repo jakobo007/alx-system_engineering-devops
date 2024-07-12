@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Define the port number
+nc -l localhost 98
