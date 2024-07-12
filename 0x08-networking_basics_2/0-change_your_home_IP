@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
-# Check if script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root."
-    exit 1
-fi
-
-# Backup the original hosts file
-cp /etc/hosts /etc/hosts.bak
-
-# Modify /etc/hosts to configure localhost and facebook.com
-echo "127.0.0.2 localhost" >> /etc/hosts
-echo "8.8.8.8 facebook.com" >> /etc/hosts
-
-# Display updated hosts file
-echo "Updated hosts file:"
-cat /etc/hosts
+# backup host files
+cp /etc/hosts ~/etc/hosts.bak
+# create new host files
+cp /etc/hosts ~/hosts.new
+# sed ... ~/hosts.new
+echo 127.0.0.2 localhost >> ~/hosts.new
+echo 8.8.8.8 facebook.com >> ~/hosts.new
+sudo cp -f ~/hosts.new /etc/hosts
