@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# backup host files
-cp /etc/hosts ~/etc/hosts.bak
 # create new host files
 cp /etc/hosts ~/hosts.new
 # sed ... ~/hosts.new
