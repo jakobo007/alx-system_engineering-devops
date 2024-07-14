@@ -1,5 +1,5 @@
 #SSH client config to connect to server without a password
-Host 273131-web-01
+Host web-01
 	Hostname 100.24.205.193
 	User ubuntu
 	IdentityFile ~/.ssh/School
