@@ -11,18 +11,9 @@ echo "Hello World!" | sudo tee /var/www/html/index.html
 sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
 sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/g' /etc/nginx/sites-available/default
 
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
 # Restart nginx without using systemctl
 sudo service nginx restart
 
-# Check nginx status (optional, for debugging purposes)
-sudo service nginx status
-
-# Validate server response
-response=$(curl -s -o /dev/null -w "%{http_code}" localhost)
-
-if [ "$response" -eq 200 ]; then
-  echo "Server is returning 200 OK"
-else
-  echo "Server is not returning 200 OK. Response code: $response"
-fi
 
