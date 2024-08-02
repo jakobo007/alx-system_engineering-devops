@@ -1,39 +1,11 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx to redirect /redirect_me to another page
+# Script that configures a new Ubuntu machine to respect above requirements
 
-# Update the package list
-sudo apt update -y
+sudo apt-get update
+sudo apt-get install -y nginx
 
-# Install Nginx
-sudo apt install -y nginx
+echo "Hello World!" | sudo tee /var/www/html/index.html
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.techhub.com permanent;"
+sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-# Ensure Nginx is listening on port 80
-sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-sudo sed -i 's/listen \[::\]:80 default_server;/listen \[::\]:80;/' /etc/nginx/sites-available/default
-
-# Backup the current configuration file
-sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
-
-# Configure Nginx to set up the redirection
-sudo bash -c 'cat > /etc/nginx/sites-available/default' << EOF
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name _;
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF
-
-# Restart Nginx to apply the changes
 sudo service nginx restart
-
-# Ensure Nginx starts on boot
-sudo systemctl enable nginx
