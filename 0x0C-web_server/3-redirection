@@ -7,7 +7,25 @@ sudo apt-get install -y nginx
 # Create a sample index.html
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
-# Add the redirection rule to the Nginx configuration
-sudo sed -i '/server_name _;/a \ \trewrite ^/redirect_me https://www.techhub.com permanent;' /etc/nginx/sites-enabled/default
+# Configure Nginx to redirect /redirect_me to another URL
+sudo tee /etc/nginx/sites-available/default <<EOL
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.techhub.com;
+    }
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOL
 
 sudo service nginx restart
