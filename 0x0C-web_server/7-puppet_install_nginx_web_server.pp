@@ -1,67 +1,25 @@
-# File: nginx_configuration.pp
+# Script to install nginx using puppet
 
-# Ensure Nginx is installed
-package { 'nginx':
-  ensure => installed,
+package {'nginx':
+  ensure => 'present',
 }
 
-# Ensure the Nginx service is running and enabled to start at boot
-service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  hasrestart => true,
-  require    => Package['nginx'],
+exec {'install':
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
+
 }
 
-# Create the index.html file with "Hello World!" content
-file { '/var/www/html/index.html':
-  ensure  => file,
-  content => 'Hello World!',
-  require => Package['nginx'],
+exec {'Hello':
+  command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
 }
 
-# Create a custom 404 page with "Ceci n'est pas une page"
-file { '/var/www/html/custom_404.html':
-  ensure  => file,
-  content => "Ceci n'est pas une page",
-  require => Package['nginx'],
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/blog.ehoneahobed.com\/;\\n\\t}/" /etc/nginx/sites-available/default':
+  provider => shell,
 }
 
-# Configure the Nginx default site
-file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  content => template('nginx/default.erb'),
-  require => Package['nginx'],
-  notify  => Service['nginx'],
+exec {'run':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }
-
-# Template for the Nginx default site configuration
-file { '/etc/puppetlabs/code/environments/production/modules/nginx/templates/default.erb':
-  ensure  => file,
-  content => @(EOT),
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm;
-
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-
-    location /redirect_me {
-        return 301 https://www.techhub.com;
-    }
-
-    error_page 404 /custom_404.html;
-    location = /custom_404.html {
-        internal;
-    }
-}
-| EOT
-  require => Package['nginx'],
-}
-
