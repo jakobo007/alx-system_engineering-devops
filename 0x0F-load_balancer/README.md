@@ -1,0 +1,2 @@
+This is a 0x0F-load_balancer repo
+We will install a laod balancer ot our web stack to ensure redudancy. This will also make it possible to increase traffic. We have also set up web-02 to increase reliabilty.
