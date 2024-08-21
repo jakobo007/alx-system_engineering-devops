@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # Script to show user
-sudo -u "$1" whoami
+USER=$1
+sudo -u $USER whoami
